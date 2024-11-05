@@ -44,7 +44,13 @@ module History
         token = SecureRandom.hex(10)
         history_code = "#{Date.today.to_s}#{token}"
   
-        break history_code unless @model_name.where(history_code: history_code).exists?
+        break history_code unless Object.const_get(@model_name).where(history_code: history_code).exists?
+        
+        # unless @generated_codes.include?(history_code)
+        #   @generated_codes << history_code
+        #   return history_code
+        # end
+        
       end
     end
 
