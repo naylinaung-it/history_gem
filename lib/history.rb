@@ -6,7 +6,7 @@ module History
 
   class Admin
     def initialize(model_name, class_name, class_id, changes, admin_id, change_content)
-      @model_name = model_name
+      @model_name = Object.const_get(model_name)
       @class_name = class_name
       @class_id = class_id
       @changes = changes
@@ -24,7 +24,7 @@ module History
         before_value = remove_special_characters(truncate(values[0].to_s, length: 700)) if !values[0].nil?
         after_value = remove_special_characters(truncate(values[1].to_s, length: 700)) if !values[1].nil?      
         
-        Object.const_get(@model_name).create!({
+        @model_name.create!({
         history_code: history_code,
         class_name: @class_name,
         class_id: @class_id,
@@ -44,12 +44,7 @@ module History
         token = SecureRandom.hex(10)
         history_code = "#{Date.today.to_s}#{token}"
   
-        break history_code unless Object.const_get(@model_name).where(history_code: history_code).exists?
-        
-        # unless @generated_codes.include?(history_code)
-        #   @generated_codes << history_code
-        #   return history_code
-        # end
+        break history_code unless @model_name.where(history_code: history_code).exists?
         
       end
     end
@@ -61,7 +56,7 @@ module History
     
     def truncate(text, length: 30, omission: '...')
       return text if text.length <= length
-    
+
       truncated_text = text[0, length - omission.length] # Cut the string to fit within the length
       truncated_text + omission # Append the omission (default '...')
     end
