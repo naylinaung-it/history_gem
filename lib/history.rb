@@ -45,7 +45,6 @@ module History
         history_code = "#{Date.today.to_s}#{token}"
   
         break history_code unless @model_name.where(history_code: history_code).exists?
-        
       end
     end
 
