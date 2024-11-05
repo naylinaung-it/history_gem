@@ -18,10 +18,7 @@ module History
       history_code = args[0]  
       unless history_code.present?
         history_code = generate_history_code
-      end
-
-      puts "+++++++++++++++++++#{history_code}"
-    
+      end    
       @changes.each do |attribute_name, values|
         next if attribute_name == "updated_at"
         before_value = remove_special_characters(truncate(values[0].to_s, length: 700)) if !values[0].nil?
