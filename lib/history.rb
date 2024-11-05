@@ -20,8 +20,7 @@ module History
       @changes.each do |attribute_name, values|
         next if attribute_name == "updated_at"
         before_value = remove_special_characters(truncate(values[0].to_s, length: 700)) if !values[0].nil?
-        after_value = remove_special_characters(truncate(values[1].to_s, length: 700)) if values[1].nil?
-      
+        after_value = remove_special_characters(truncate(values[1].to_s, length: 700)) if !values[1].nil?      
         
         Object.const_get(@model_name).create!({
         history_code: history_code,
